@@ -1,0 +1,18 @@
+Location where Xcode default code snippets live:
+./Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets
+
+Location where xCode looks for user code snippets:
+~/Library/Developer/Xcode/UserData/CodeSnippets
+
+Code snippets are XML Plists.  The system .codesnippets file is a long plist with an array of snippets inside while the user snippets are one snippet per file.
+
+
+Modifying included system snippets
+   Dump each snippet into its own .snippet file (xml plist)
+   Add this to the snippet dictionary to make it a user snippet:
+   		<key>IDECodeSnippetUserSnippet</key>
+		<true/>
+   Add this to the snipped dictionary to make it the top choice for its particular completion; this ensures that the user snippet will be chosen by default
+        <key>IDECodeSnippetRelativePriority</key>
+        <integer>1</integer>
+   Optionally delete the system snippet (Xcode reinstallation will also reinstall the whole snippet file, so this isn't too dangerous)
