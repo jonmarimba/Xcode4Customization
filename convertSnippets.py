@@ -32,6 +32,9 @@ def cleanSnippetsCode(snippets, outdir, uncrustifyConfigPath):
         time.sleep(.1)
         fileHandle = open(tempCodeFile, 'r')
         newCode = fileHandle.read()
+        newCode = newCode.replace("< # ", "<#")
+        newCode = newCode.replace(" # >", "#>")
+        
         if(len(newCode) > 0):
             snippet['IDECodeSnippetContents'] = newCode
             print("uncrustified code = \n" + newCode + "\n")
@@ -58,7 +61,7 @@ def printWhatsNext():
     print("""
 There should now be a series of .codesnippet files in the out directory.
 You can copy them to ~/Library/Developer/Xcode/UserData/CodeSnippets.
-You can probably safely delete the file located at (dev tools path)/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets.
+You can probably safely replace the file located at (dev tools path)/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets with an empty one.
 I would back that up first, just in case you want it back.  Reinstalling Xcode will also put it back, so you might find that it also reappears on occasion.
 """)
 
@@ -72,7 +75,6 @@ if __name__ == '__main__':
     if not (os.path.exists(baseDir) and os.path.isdir(baseDir)):
         printUsage()
         sys.exit(baseDir + " is not a directory.")
-
     
     outDir = os.path.join(baseDir, "pythonOut", "")
     if not (os.path.exists(outDir)):
@@ -81,14 +83,12 @@ if __name__ == '__main__':
         printUsage()
         sys.exit(outdir + " already exists, but isn't a directory.  This script dumps its output there by default.")
 
-
     crustifyConfig = sys.argv[2]
     crustifyConfig = os.path.abspath(crustifyConfig)
     
     if not (os.path.exists(crustifyConfig) and not os.path.isdir(crustifyConfig)):                                                                                                   
         printUsage()
         sys.exit(crustifyConfig + " is not a config file.")
-        
     
     snippetsDir = os.path.join(baseDir, "SystemCodeSnippets.codesnippets")
     snippets = plistlib.readPlist(snippetsDir)
