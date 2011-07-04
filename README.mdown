@@ -12,9 +12,10 @@ Backup the files in:
 	   ~/Library/Developer/Xcode/UserData/CodeSnippets
 	   /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets
 
-Optionally copy the file at /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets to ./snippets/SystemCodeSnippets.codesnippet
+Optionally copy the file at /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets to ./snippets/SystemCodeSnippets.codesnippets.
 
 In the root directory of this project run ./convertSnippets.py ./snippets ./uncrustifyTemplates/sbi.cfg
+You can also supply your own uncrustify template here.
 
 This will parse the snippets file included in the snippets directory, export the code for each snippet therein into a temporary file, run uncrustify with the Sounds Broken inc uncrustify template, reimport the code into each snippet, and export each snippet into its own snippet file.
 
