@@ -1,0 +1,21 @@
+
+# xcode noise
+*/build/
+*.pbxuser
+*.mode1v3
+*.xcuserdatad
+*.perspectivev3
+*project.xcworkspace*
+
+#other IDEs' noise
+.idea
+
+# other vcs' cruft
+.svn
+*.hg
+.hgignore
+
+# osx noise
+.DS_Store
+profile
+

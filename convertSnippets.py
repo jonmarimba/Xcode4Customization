@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import os
+import time
 import plistlib
 import shlex
 import subprocess
@@ -8,29 +9,34 @@ import subprocess
 
 def printUsage():
     """Prints command line usage for the script"""
-    print("Usage: convertSnippets.py /path/to/directory/containing/snippets/ \nThis directory should include a file named SystemCodeSnippets.codesnippets")
+    print("Usage: convertSnippets.py /path/to/directory/containing/snippets/ /path/to/uncrustify.cfg \nThe snippets directory should include a file named SystemCodeSnippets.codesnippets")
 
-def cleanSnippetsCode(snippets, outdir):
+def cleanSnippetsCode(snippets, outdir, uncrustifyConfigPath):
     """Dumps snippets into the outdir, runs uncrustify over them, and reloads them into the snippets"""
     for snippet in snippets:
         snippetID = snippet['IDECodeSnippetIdentifier']                                                                                                                                  
-        codeFileOut = outDir + snippetID + ".m"
-        if (os.path.exists(codeFileOut)):
-            os.remove(codeFileOut)
-        fileHandle = open(codeFileOut, 'w')
+        tempCodeFile = outDir + snippetID + ".m"
+        if (os.path.exists(tempCodeFile)):
+            os.remove(tempCodeFile)
+        fileHandle = open(tempCodeFile, 'w')
         code = snippet['IDECodeSnippetContents']
+        print("code = \n" + code + "\n for file path " + tempCodeFile + "\n")
         fileHandle.writelines(code)
         fileHandle.close()
-        commandLine = "uncrustify -c /Volumes/MacOSX/Users/jonathan/svnCheckouts/Xcode4Customization/uncrustifyTemplates/sbi.cfg --no-backup " + codeFileOut
+        commandLine = "uncrustify -c " + uncrustifyConfigPath + " --no-backup " + tempCodeFile
         args = shlex.split(commandLine)
-        p = subprocess.Popen(args)
-        fileHandle = open(codeFileOut, 'r')
+        p = subprocess.call(args)
+        time.sleep(.1)
+        fileHandle = open(tempCodeFile, 'r')
         newCode = fileHandle.read()
         #print("New code = \n" + newCode + " old code = \n" + code);
         if(len(newCode) > 0):
             snippet['IDECodeSnippetContents'] = newCode
+            print("new code = \n" + newCode + "\n")
+        else:
+            print("new code is empty\n")
         fileHandle.close()
-        os.path.remove(codeFileOut)
+        os.remove(tempCodeFile)
 
 def makeUserSnippets(snippets):
     """Makes each snippet into a user snippet and makes it the first prority for completion in Xcode"""
@@ -46,7 +52,7 @@ def dumpSnippetsPlist(snippets, outdir):
         plistlib.writePlist(snippet, snippetFileOut)
         
 if __name__ == '__main__':
-    if (len(sys.argv) <= 1):
+    if (len(sys.argv) <= 2):
         printUsage()
         sys.exit()
 
@@ -57,17 +63,25 @@ if __name__ == '__main__':
         sys.exit(baseDir + " is not a directory.")
 
     
-    outDir = os.path.join(baseDir, "pythonOut")
-    print("outdir = " + outDir)
+    outDir = os.path.join(baseDir, "pythonOut", "")
     if not (os.path.exists(outDir)):
         os.makedirs(outDir)
-    elif not (os.path.isdir(outDir)):
+    if not (os.path.isdir(outDir)):
         printUsage()
         sys.exit(outdir + " already exists, but isn't a directory.  This script dumps its output there by default.")
 
+
+    crustifyConfig = sys.argv[2]
+    crustifyConfig = os.path.abspath(crustifyConfig)
+    
+    if not (os.path.exists(crustifyConfig) and not os.path.isdir(crustifyConfig)):                                                                                                   
+        printUsage()
+        sys.exit(crustifyConfig + " is not a config file.")
+        
+    
     snippetsDir = os.path.join(baseDir, "SystemCodeSnippets.codesnippets")
     snippets = plistlib.readPlist(snippetsDir)
 
-    cleanSnippetsCode(snippets, outDir)
+    cleanSnippetsCode(snippets, outDir, crustifyConfig)
     makeUserSnippets(snippets)
     dumpSnippetsPlist(snippets, outDir)
