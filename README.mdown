@@ -21,7 +21,7 @@ This will parse the snippets file included in the snippets directory, export the
 
 Once the script finishes, each .codesnippet file in the snippets/pythonOut directory can then be copied into ~/Library/Developer/Xcode/UserData/CodeSnippets
 
-If you then want to remove the default "from the factory" snippets, go anead and delete /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets.  This *shouldn't* cause any problems with your installation of Xcode, but your mileage may vary
+If you then want to remove the default "from the factory" snippets, go ahead and replace /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets with an empty file.  WARNING: deleting this file without replacing it with an empty file will likely crash Xcode on startup.
 
 License
 =======
