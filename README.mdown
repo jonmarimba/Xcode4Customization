@@ -1,0 +1,33 @@
+Xcode4Customization
+=======
+
+Xcode4Customization uses uncrustify https://github.com/bengardner/uncrustify to reformat the code snippets included within Xcode 4.  The included python script pulls the snippets out of an Xcode 4 factory snippets file.  You can either use the one here or replace it with yours.
+
+Quick Start
+=======
+
+Install uncrustify.
+
+Backup the files in:
+	   ~/Library/Developer/Xcode/UserData/CodeSnippets
+	   /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets
+
+Optionally copy the file at /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets to ./snippets/SystemCodeSnippets.codesnippet
+
+In the root directory of this project run ./convertSnippets.py ./snippets ./uncrustifyTemplates/sbi.cfg
+
+This will parse the snippets file included in the snippets directory, export the code for each snippet therein into a temporary file, run uncrustify with the Sounds Broken inc uncrustify template, reimport the code into each snippet, and export each snippet into its own snippet file.
+
+Once the script finishes, each .codesnippet file in the snippets/pythonOut directory can then be copied into ~/Library/Developer/Xcode/UserData/CodeSnippets
+
+If you then want to remove the default "from the factory" snippets, go anead and delete /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets.  This *shouldn't* cause any problems with your installation of Xcode, but your mileage may vary
+
+License
+=======
+Copyright (c) 2011 Jonathan Saggau
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
