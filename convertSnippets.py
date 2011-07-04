@@ -9,7 +9,10 @@ import subprocess
 
 def printUsage():
     """Prints command line usage for the script"""
-    print("Usage: convertSnippets.py /path/to/directory/containing/snippets/ /path/to/uncrustify.cfg \nThe snippets directory should include a file named SystemCodeSnippets.codesnippets")
+    print("""Usage: convertSnippets.py /path/to/directory/containing/snippets/ /path/to/uncrustify.cfg 
+             The snippets directory should include a file named SystemCodeSnippets.codesnippets.
+             This script requires uncrustify available at: https://github.com/bengardner/uncrustify
+             If in doubt try /convertSnippets.py ./snippets ./uncrustifyTemplates/sbi.cfg""")
 
 def cleanSnippetsCode(snippets, outdir, uncrustifyConfigPath):
     """Dumps snippets into the outdir, runs uncrustify over them, and reloads them into the snippets"""
@@ -29,12 +32,11 @@ def cleanSnippetsCode(snippets, outdir, uncrustifyConfigPath):
         time.sleep(.1)
         fileHandle = open(tempCodeFile, 'r')
         newCode = fileHandle.read()
-        #print("New code = \n" + newCode + " old code = \n" + code);
         if(len(newCode) > 0):
             snippet['IDECodeSnippetContents'] = newCode
-            print("new code = \n" + newCode + "\n")
+            print("uncrustified code = \n" + newCode + "\n")
         else:
-            print("new code is empty\n")
+            print("uncrustified code is empty; leaving it alone")
         fileHandle.close()
         os.remove(tempCodeFile)
 
@@ -51,6 +53,15 @@ def dumpSnippetsPlist(snippets, outdir):
         snippetFileOut = outDir + snippetID + ".codesnippet"
         plistlib.writePlist(snippet, snippetFileOut)
         
+def printWhatsNext():
+    """Prints a helpful little howto for the rest of the process"""
+    print("""
+There should now be a series of .codesnippet files in the out directory.
+You can copy them to ~/Library/Developer/Xcode/UserData/CodeSnippets.
+You can probably safely delete the file located at (dev tools path)/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets.
+I would back that up first, just in case you want it back.  Reinstalling Xcode will also put it back, so you might find that it also reappears on occasion.
+""")
+
 if __name__ == '__main__':
     if (len(sys.argv) <= 2):
         printUsage()
@@ -85,3 +96,4 @@ if __name__ == '__main__':
     cleanSnippetsCode(snippets, outDir, crustifyConfig)
     makeUserSnippets(snippets)
     dumpSnippetsPlist(snippets, outDir)
+    printWhatsNext()
