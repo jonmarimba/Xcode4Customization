@@ -1,7 +1,7 @@
 Xcode4Customization
 =======
 
-Xcode4Customization uses uncrustify https://github.com/bengardner/uncrustify to reformat the code snippets included within Xcode 4.  The included python script pulls the snippets out of an Xcode 4 factory snippets file.  You can either use the one here or replace it with yours.
+Xcode4Customization uses uncrustify https://github.com/bengardner/uncrustify to reformat the code snippets included within Xcode 4 so that they follow *your* coding style.
 
 Quick Start
 =======
