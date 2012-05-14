@@ -97,3 +97,4 @@ if __name__ == '__main__':
     makeUserSnippets(snippets)
     dumpSnippetsPlist(snippets, outDir)
     printWhatsNext()
+
