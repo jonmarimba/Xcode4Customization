@@ -10,11 +10,9 @@ Install uncrustify.
 
 Backup the files in:
 	   ~/Library/Developer/Xcode/UserData/CodeSnippets
-	   /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets
-       Or For The new Xcode:
        /Applications/Xcode.app/Contents/PlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets
        
-Optionally copy the file at /Developer/Library/Xcode/PrivatePlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets to ./snippets/SystemCodeSnippets.codesnippets.
+Optionally copy the file at /Applications/Xcode.app/Contents/PlugIns/IDECodeSnippetLibrary.ideplugin/Contents/Resources/SystemCodeSnippets.codesnippets to ./snippets/SystemCodeSnippets.codesnippets.
 
 In the root directory of this project run ./convertSnippets.py ./snippets ./uncrustifyTemplates/sbi.cfg
 You can also supply your own uncrustify template here.

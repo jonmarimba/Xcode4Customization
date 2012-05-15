@@ -91,6 +91,7 @@ if __name__ == '__main__':
         sys.exit(crustifyConfig + " is not a config file.")
     
     snippetsDir = os.path.join(baseDir, "SystemCodeSnippets.codesnippets")
+    print(snippetsDir)
     snippets = plistlib.readPlist(snippetsDir)
 
     cleanSnippetsCode(snippets, outDir, crustifyConfig)
