@@ -1,10 +1,10 @@
 #!/bin/bash
 
-
 BASEDIR=$(cd "$(dirname "$0")"; pwd)
 
 #backup existing user code snippets
 mkdir -p ~/Library/Developer/Xcode/UserData/CodeSnippets.bak
+mkdir -p ~/Library/Developer/Xcode/UserData/CodeSnippets #just in case
 cp -r ~/Library/Developer/Xcode/UserData/CodeSnippets/* ~/Library/Developer/Xcode/UserData/CodeSnippets.bak/
 
 #rm existing user code snippets
